@@ -1,12 +1,45 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
-	<head>
-		<meta charset="utf-8" />
-		<title>publication</title>
-		<link href="publication-web-resources/css/idGeneratedStyles.css" rel="stylesheet" type="text/css" />
-	</head>
-	<body id="publication" style="margin:0;width:100vw;height:100vh;background-color:white;display:flex;align-items:center;justify-content:center;">
-		<div style="position:relative;overflow:hidden;width:595.28px;height:841.89px;background-color:white">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>publication</title>
+	<link href="publication-web-resources/css/idGeneratedStyles.css" rel="stylesheet" type="text/css" />
+	<style>
+		html, body {
+			margin: 0;
+			padding: 0;
+			width: 100%;
+			min-height: 100%;
+			background-color: white;
+		}
+		body {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			min-height: 100vh;
+			overflow-x: hidden;
+		}
+		#page-wrapper {
+			position: relative;
+			width: 595.28px;
+			height: 841.89px;
+			transform-origin: top center;
+		}
+		#page-content {
+			position: absolute;
+			overflow: hidden;
+			left: 0;
+			top: 0;
+			width: 595.28px;
+			height: 841.89px;
+			background-color: white;
+		}
+	</style>
+</head>
+<body id="publication">
+	<div id="page-wrapper">
+		<div id="page-content">
 			<div id="_idContainer000" class="Basic-Graphics-Frame _idGenObjectStyle-Disabled">
 				<img class="_idGenObjectAttribute-1 _idGenObjectAttribute-2" src="publication-web-resources/image/fig_image_1_11.jpg" alt="" />
 			</div>
@@ -19,5 +52,36 @@
 				</div>
 			</a>
 		</div>
-	</body>
+	</div>
+
+	<script>
+		(function () {
+			var wrapper = document.getElementById('page-wrapper');
+			var PAGE_WIDTH = 595.28;
+			var PAGE_HEIGHT = 841.89;
+
+			function scalePage() {
+				var vw = window.innerWidth;
+				var vh = window.innerHeight;
+
+				// Scale to fit width, but never upscale beyond original size
+				var scale = Math.min(vw / PAGE_WIDTH, 1);
+
+				// Optional: also cap by viewport height on very short screens
+				var scaleByHeight = vh / PAGE_HEIGHT;
+				if (scaleByHeight < scale) scale = scaleByHeight;
+
+				wrapper.style.transform = 'scale(' + scale + ')';
+
+				// Collapse the reserved layout space to match the scaled size
+				wrapper.style.marginTop = '0px';
+				wrapper.style.marginBottom = (PAGE_HEIGHT * (scale - 1)) + 'px';
+			}
+
+			window.addEventListener('resize', scalePage);
+			window.addEventListener('orientationchange', scalePage);
+			scalePage();
+		})();
+	</script>
+</body>
 </html>
